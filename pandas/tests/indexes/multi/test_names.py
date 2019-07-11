@@ -116,6 +116,30 @@ def test_names(idx, index_names):
     assert ind_names == level_names
 
 
+def test_from_product_infers_names():
+
+    a = pd.Series([1, 2], name="b")
+    b = pd.Series(["a", "b"], name="b")
+    expected_names = [series.name for series in (a, b)]
+
+    multi_index = pd.MultiIndex.from_product([a, b])
+
+    assert multi_index.names == expected_names
+
+
+def test_from_product_reduces_no_names():
+
+    # ensure that if no elements in from_product have a name,
+    # from_product returns None instead of [None, None, ...]
+
+    a = [1, 2, 3]
+    b = ["a", "b"]
+
+    multi_index = pd.MultiIndex.from_product([a, b])
+
+    assert multi_index.names is None
+
+
 def test_duplicate_level_names_access_raises(idx):
     # GH19029
     idx.names = ["foo", "foo"]
