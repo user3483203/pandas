@@ -537,13 +537,12 @@ class MultiIndex(Index):
 
         if names is None:
             names = [
-                iterable.name if hasattr(iterable, 'name') else None
+                iterable.name if hasattr(iterable, "name") else None
                 for iterable in iterables
             ]
 
             if all(n is None for n in names):
                 names = None
-
 
         codes, levels = _factorize_from_iterables(iterables)
         codes = cartesian_product(codes)
